@@ -17,7 +17,7 @@ const sendText = () => {
 
   //loop through the array starting at index 2 to avoid the column headers and create an object for the user information
   //* bucle a través de la matriz comenzando en el índice 2 para evitar los encabezados de columna y crear un objeto para la información del usuario
-  for (let i = 2; i < csvArr.length; i = i + 2) {
+  for (let i = 2; i < csvArr.length - 1; i = i + 2) {
     const userObj = {};
 
     userObj.customer_name = csvArr[i];
@@ -30,41 +30,47 @@ const sendText = () => {
 
     // an example of creating edge cases and logging issues to a file for easy reading if there is an error
     //* un ejemplo de crear casos de borde y registrar problemas en un archivo para una fácil lectura si hay un error
-    if (phoneRegex.test(userObj.phone_number) && userObj.customer_name !== null) {
-        fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
-          body: { userObj },
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        })
-        .then((response) => {console.log(`message successfully sent to ${userObj.customer_name} at ${userObj.phone_number}`);
-})
-    } else {
-        fs.appendFile(
-          "./log.txt",
-          `${date.toLocaleTimeString()} Message failed to send to ${
-            userObj.customer_name
-          } at ${userObj.phone_number}`,
-          (err) => {
-            console.error(err);
-          }
+    if (
+      phoneRegex.test(userObj.phone_number) &&
+      userObj.customer_name !== null
+    ) {
+      fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
+        body: { userObj },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }).then((response) => {
+        console.log(
+          `message successfully sent to ${userObj.customer_name} at ${userObj.phone_number}`
         );
-    };
+      });
+    } else {
+      fs.appendFile(
+        "./log.txt",
+        `${date.toLocaleTimeString()} Message failed to send to ${
+          userObj.customer_name
+        } at ${userObj.phone_number}`,
+        (err) => {
+          console.error(err);
+        }
+      );
+    }
 
     clearInterval(interval);
-  };
+  }
   // Creating/Updating a log to show that the messages have been sent or if there was an error
   //* Creación / actualización de un registro para mostrar que los mensajes se han enviado o si hubo un error
   fs.appendFile(
     "./log.txt",
     `\n --- ${date.toLocaleTimeString()} Message delivery complete ---`,
     (err) => {
-      console.error(err);
+      if (err !== null) {
+        console.error(err);
+      }
     }
   );
 };
-
 
 // setInterval to send text every 34 milliseconds to limit the amount of messages to 30 per second. This can easily be adjusted if the customer decides to scale their operation.
 //* setInterval para enviar texto cada 34 milisegundos para limitar la cantidad de mensajes a 30 por segundo. Esto se puede ajustar fácilmente si el cliente decide escalar su operación.

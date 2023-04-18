@@ -15,4 +15,15 @@
  --- 10:00:01 AM Message delivery complete ---10:00:13 AM Message failed to send to ﻿customer_name at phone_number10:00:13 AM Message failed to send to  at undefined
  --- 10:00:13 AM Message delivery complete ---10:00:27 AM Message failed to send to phone_number at Nate Margolis10:00:27 AM Message failed to send to 234-456-3467 at Peyton Manning10:00:27 AM Message failed to send to 234-456-3468 at Russell Wilson10:00:27 AM Message failed to send to 234-456-3469 at Von Miller10:00:27 AM Message failed to send to 234-456-3470 at Steph Curry10:00:27 AM Message failed to send to 234-456-3471 at Michael Jordan10:00:27 AM Message failed to send to 234-456-3472 at Lebron James10:00:27 AM Message failed to send to 234-456-3473 at Jalen Hurts10:00:27 AM Message failed to send to 234-456-3474 at Josh Allen10:00:27 AM Message failed to send to 234-456-3475 at 
  --- 10:00:27 AM Message delivery complete ---10:00:40 AM Message failed to send to  at undefined
- --- 10:00:40 AM Message delivery complete ---
+ --- 10:00:40 AM Message delivery complete ---11:22:17 AM Message failed to send to  at undefined
+ --- 11:22:17 AM Message delivery complete ---11:26:08 AM Message failed to send to  at undefined
+ --- 11:26:08 AM Message delivery complete ---11:27:02 AM Message failed to send to  at undefined
+ --- 11:27:02 AM Message delivery complete ---11:27:57 AM Message failed to send to Peyton Manning at undefined
+ --- 11:27:57 AM Message delivery complete ---
+ --- 11:28:38 AM Message delivery complete ---
+ --- 11:28:53 AM Message delivery complete ---
+ --- 11:29:30 AM Message delivery complete ---
+ --- 11:33:57 AM Message delivery complete ---
+ --- 11:34:39 AM Message delivery complete ---
+ --- 11:35:23 AM Message delivery complete ---
+ --- 11:39:58 AM Message delivery complete ---
