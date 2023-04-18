@@ -30,7 +30,7 @@ const sendText = () => {
 
     // an example of creating edge cases and logging issues to a file for easy reading if there is an error
     //* un ejemplo de crear casos de borde y registrar problemas en un archivo para una fácil lectura si hay un error
-    if (phoneRegex.test(userObj.phone_number) && userObj.customer_name !== null && userObj.phone_number !== null) {
+    if (phoneRegex.test(userObj.phone_number) && userObj.customer_name !== null) {
         fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
           body: { userObj },
           headers: {
