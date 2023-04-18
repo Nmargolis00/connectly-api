@@ -66,8 +66,8 @@ const sendText = () => {
 };
 
 
-// setInterval to send text every 34 seconds to limit the amount of messages to 30 per second. This can easily be adjusted if the customer decides to scale their operation.
-//* setInterval para enviar texto cada 34 segundos para limitar la cantidad de mensajes a 30 por segundo. Esto se puede ajustar fácilmente si el cliente decide escalar su operación.
+// setInterval to send text every 34 milliseconds to limit the amount of messages to 30 per second. This can easily be adjusted if the customer decides to scale their operation.
+//* setInterval para enviar texto cada 34 milisegundos para limitar la cantidad de mensajes a 30 por segundo. Esto se puede ajustar fácilmente si el cliente decide escalar su operación.
 const interval = setInterval(() => {
   sendText();
 }, 34);
