@@ -5,23 +5,26 @@ let fs = require("fs");
 // read csv
 let csv = fs.readFileSync("./customerData.csv", "utf8");
 
-// split csv into array
-let csvArr = csv.split(",");
-
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
+// split csv into lines
+let linesArr = csv.split("\r\n");
 
 // function to send text
 //* funcion a enviar texto
 const sendText = () => {
-  let date = new Date();
-
-  //loop through the array starting at index 2 to avoid the column headers and create an object for the user information
-  //* bucle a través de la matriz comenzando en el índice 2 para evitar los encabezados de columna y crear un objeto para la información del usuario
-  for (let i = 2; i < csvArr.length - 1; i = i + 2) {
+    let date = new Date();
+    
+    //loop through the lines starting at index 1 to avoid the column headers and create an object for the user information
+    //* bucle a través de las líneas comenzando en el índice 1 para evitar los encabezados de columna y crear un objeto para la información del usuario
+    for (let index = 1; index < linesArr.length; index++) {
+      let line = linesArr[index].split(",");
+      
     const userObj = {};
 
-    userObj.customer_name = csvArr[i];
-    userObj.phone_number = csvArr[i + 1];
+
+    userObj.customer_name = line[0];
+    userObj.phone_number = line[1];
 
     // generic message template that will be sent to the user and is easily customizable
     //* plantilla de mensaje genérica que se enviará al usuario y es fácilmente personalizable
