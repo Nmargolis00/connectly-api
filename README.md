@@ -15,7 +15,7 @@ Esto es un applicacion a envedir un mensaje a su clientes sobre su orden. El men
     A instalar la programa, se necesita a digitar "npm i" a installar los paquetes. A comenzar la programa, simplemente digitar "node script.js".
 ## Característas
 
-    Por este programa, hay un registro por los errores si una problema con el mensaje.
+    Por este programa, hay un registro por los errores si una problema con el mensaje. Hay mucho comentario en el codigo en los dos ingles y espanol tambien.
 
 ## Informacíon de Contacto
 

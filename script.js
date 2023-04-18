@@ -11,10 +11,12 @@ let csvArr = csv.split(",");
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
 // function to send text
+//* funcion a enviar texto
 const sendText = () => {
   let date = new Date();
 
   //loop through the array starting at index 2 to avoid the column headers and create an object for the user information
+  //* bucle a través de la matriz comenzando en el índice 2 para evitar los encabezados de columna y crear un objeto para la información del usuario
   for (let i = 2; i < csvArr.length; i = i + 2) {
     const userObj = {};
 
@@ -22,10 +24,12 @@ const sendText = () => {
     userObj.phone_number = csvArr[i + 1];
 
     // generic message template that will be sent to the user and is easily customizable
+    //* plantilla de mensaje genérica que se enviará al usuario y es fácilmente personalizable
     let messageTemplate = `Hey ${userObj.customer_name}, we are glad to have you as our customer.`;
     userObj.text = messageTemplate;
 
     // an example of creating edge cases and logging issues to a file for easy reading if there is an error
+    //* un ejemplo de crear casos de borde y registrar problemas en un archivo para una fácil lectura si hay un error
     if (phoneRegex.test(userObj.phone_number)) {
         fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
           body: { userObj },
@@ -50,6 +54,7 @@ const sendText = () => {
     clearInterval(interval);
   };
   // Creating/Updating a log to show that the messages have been sent or if there was an error
+  //* Creación / actualización de un registro para mostrar que los mensajes se han enviado o si hubo un error
   fs.appendFile(
     "./log.txt",
     `\n --- ${date.toLocaleTimeString()} Message delivery complete ---`,
