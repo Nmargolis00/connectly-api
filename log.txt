@@ -1,0 +1,4 @@
+8:55:54 AM Message failed to send to Nate Margolis at 234-456-34678:55:54 AM Message failed to send to Peyton Manning at 234-456-34688:55:54 AM Message failed to send to Russell Wilson at 234-456-34698:55:54 AM Message failed to send to Steph Curry at 234-456-34718:55:54 AM Message failed to send to Von Miller at 234-456-34708:55:54 AM Message failed to send to Michael Jordan at 234-456-34728:55:54 AM Message failed to send to Lebron James at 234-456-34738:55:54 AM Message failed to send to Jalen Hurts at 234-456-3474
+ --- 8:55:54 AM Message delivery complete ---8:55:54 AM Message failed to send to Josh Allen at 234-456-34759:21:07 AM Message failed to send to  at undefined
+ --- 9:21:07 AM Message delivery complete ---9:21:38 AM Message failed to send to  at undefined
+ --- 9:21:38 AM Message delivery complete ---
