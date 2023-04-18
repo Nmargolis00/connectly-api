@@ -30,7 +30,7 @@ const sendText = () => {
 
     // an example of creating edge cases and logging issues to a file for easy reading if there is an error
     //* un ejemplo de crear casos de borde y registrar problemas en un archivo para una fácil lectura si hay un error
-    if (phoneRegex.test(userObj.phone_number)) {
+    if (phoneRegex.test(userObj.phone_number) && userObj.customer_name !== null && userObj.phone_number !== null) {
         fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
           body: { userObj },
           headers: {
@@ -38,7 +38,8 @@ const sendText = () => {
           },
           method: "POST",
         })
-        .then((response) => {console.log(`message successfully sent to ${userObj.customer_name} at ${userObj.phone_number}`)});
+        .then((response) => {console.log(`message successfully sent to ${userObj.customer_name} at ${userObj.phone_number}`);
+})
     } else {
         fs.appendFile(
           "./log.txt",
@@ -66,6 +67,7 @@ const sendText = () => {
 
 
 // setInterval to send text every 34 seconds to limit the amount of messages to 30 per second. This can easily be adjusted if the customer decides to scale their operation.
+//* setInterval para enviar texto cada 34 segundos para limitar la cantidad de mensajes a 30 por segundo. Esto se puede ajustar fácilmente si el cliente decide escalar su operación.
 const interval = setInterval(() => {
   sendText();
 }, 34);
