@@ -1,82 +1,84 @@
 // import fs
-const { response } = require("express");
-let fs = require("fs");
+const { response } = require("express")
+let fs = require("fs")
+const DEFAULT_API_BASE_URL = 'https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1'
+const LOG_FILE = "./log.txt"
 
-// read csv
-let csv = fs.readFileSync("./customerData.csv", "utf8");
+const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
-const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-
-// split csv into lines
-let linesArr = csv.split("\r\n");
-
-// function to send text
-//* funcion a enviar texto
-const sendText = () => {
-    let date = new Date();
-    
-    //loop through the lines starting at index 1 to avoid the column headers and create an object for the user information
-    //* bucle a través de las líneas comenzando en el índice 1 para evitar los encabezados de columna y crear un objeto para la información del usuario
-    for (let index = 1; index < linesArr.length; index++) {
-      let line = linesArr[index].split(",");
-      
-    const userObj = {};
-
-
-    userObj.customer_name = line[0];
-    userObj.phone_number = line[1];
-
-    // generic message template that will be sent to the user and is easily customizable
-    //* plantilla de mensaje genérica que se enviará al usuario y es fácilmente personalizable
-    let messageTemplate = `Hey ${userObj.customer_name}, we are glad to have you as our customer.`;
-    userObj.text = messageTemplate;
-
-    // an example of creating edge cases and logging issues to a file for easy reading if there is an error
-    //* un ejemplo de crear casos de borde y registrar problemas en un archivo para una fácil lectura si hay un error
-    if (
-      phoneRegex.test(userObj.phone_number) &&
-      userObj.customer_name !== null
-    ) {
-      fetch("https://64371b533e4d2b4a12e3c52a.mockapi.io/api/v1/send_message", {
-        body: { userObj },
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }).then((response) => {
-        console.log(
-          `message successfully sent to ${userObj.customer_name} at ${userObj.phone_number}`
-        );
-      });
+const getUsers = (source) => {
+    if (source == 'file') {
+        return getUsersFromFile(process.env.USER_FILE)
     } else {
-      fs.appendFile(
-        "./log.txt",
-        `${date.toLocaleTimeString()} Message failed to send to ${
-          userObj.customer_name
-        } at ${userObj.phone_number}`,
+        // CLI?
+    }
+}
+
+const getUsersFromFile = (fileName) => {
+    let csv = fs.readFileSync(fileName, "utf8")
+    let linesArr = csv.split("\r?\n")
+    let users = []
+
+    for (let index = 1 index < linesArr.length index++) {
+        let line = linesArr[index].split(",")
+        users.push({
+            customer_name = line[0],
+            phone_number = line[1],
+        })
+    }
+
+    return users
+}
+
+const sendText = (user, baseApiUrl) => {
+    let messageTemplate = `Hey ${user.customer_name}, we are glad to have you as our customer.`
+    user.text = messageTemplate
+
+    if (phoneRegex.test(user.phone_number) && user.customer_name !== null) {
+        fetch(`${baseApiUrl}/send_message`, {
+            body: { user },
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+        }).then((response) => {
+            log(`message successfully sent to ${user.customer_name} at ${user.phone_number}`, true)
+        })
+    } else {
+        let date = new Date()
+        log(`${date.toLocaleTimeString()} Message failed to send to ${user.customer_name} at ${user.phone_number}`)})
+    }
+}
+
+const sendTexts = (users, baseApiUrl) => {
+    for(const user in users) {
+        sendText(user, baseApiUrl)
+    }
+
+    log(`\n --- ${(new Date()).toLocaleTimeString()} Message delivery complete ---`)
+}
+
+const log = (message, logToConsole = false) => {
+    if (logToConsole) console.log(message)
+
+    fs.appendFile(
+        LOG_FILE,
+        message,
         (err) => {
-          console.error(err);
+            console.error(err)
         }
-      );
-    }
+    )
+}
 
-    clearInterval(interval);
-  }
-  // Creating/Updating a log to show that the messages have been sent or if there was an error
-  //* Creación / actualización de un registro para mostrar que los mensajes se han enviado o si hubo un error
-  fs.appendFile(
-    "./log.txt",
-    `\n --- ${date.toLocaleTimeString()} Message delivery complete ---`,
-    (err) => {
-      if (err !== null) {
-        console.error(err);
-      }
-    }
-  );
-};
+const run = () => {
+    const baseApiUrl = process.env.BASE_API_URL || DEFAULT_API_BASE_URL
 
-// setInterval to send text every 34 milliseconds to limit the amount of messages to 30 per second. This can easily be adjusted if the customer decides to scale their operation.
-//* setInterval para enviar texto cada 34 milisegundos para limitar la cantidad de mensajes a 30 por segundo. Esto se puede ajustar fácilmente si el cliente decide escalar su operación.
-const interval = setInterval(() => {
-  sendText();
-}, 34);
+    const users = getUsers('file') // probably read the source this from an env var
+
+    const interval = setInterval(() => {
+        sendTexts(users, baseApiUrl, interval)
+        clearInterval(interval)
+    }, 34)
+}
+
+run()
